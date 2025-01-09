@@ -24,7 +24,7 @@ import { crendentialType } from "@/app/interface/interface";
 
 export default function Singup() {
   const router = useRouter();
-  const { setNewUserCrendential } = useUserContext();
+  const { setNewUserCrendential, userLoadingButton } = useUserContext();
   const { createAccount } = userservice();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -147,7 +147,11 @@ export default function Singup() {
               </Box>
             </Box>
             <Box>
-              <LoadingButton type="submit" variant="contained">
+              <LoadingButton
+                type="submit"
+                variant="contained"
+                loading={userLoadingButton}
+              >
                 SIGN UP
               </LoadingButton>
             </Box>

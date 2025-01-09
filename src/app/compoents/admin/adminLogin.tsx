@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Box, Stack } from "@mui/material";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import IconButton from "@mui/material/IconButton";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
@@ -25,7 +25,7 @@ import adminService from "@/app/service/adminService";
 export default function AdminLogin() {
   const router = useRouter();
   const { adminLogin } = adminService();
-  const { setAdminCrendential } = useAdminContext();
+  const { setAdminCrendential, adminLoadingButton } = useAdminContext();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -85,10 +85,10 @@ export default function AdminLogin() {
           >
             {" "}
             <Box>
-              <AccountCircleIcon color="primary" fontSize="large" />
+              <AdminPanelSettingsIcon color="error" fontSize="large" />
             </Box>
             <Box>
-              <Typography variant="h5">Admin</Typography>
+              <Typography variant="h5">ADMIN</Typography>
             </Box>
             <Box>
               <TextField
@@ -150,11 +150,24 @@ export default function AdminLogin() {
               </Box>
             </Box>
             <Box>
-              <LoadingButton type="submit" variant="contained">
-                LOGIN
+              <LoadingButton
+                type="submit"
+                variant="contained"
+                loading={adminLoadingButton}
+              >
+                Administrator Login
               </LoadingButton>
             </Box>
-            <Box></Box>
+            <Box>
+              <Typography
+                variant="subtitle1"
+                color="primary"
+                sx={{ display: "inline-block", cursor: "pointer" }}
+                onClick={() => router.push("./")}
+              >
+                Back To App
+              </Typography>
+            </Box>
           </Stack>
         </Box>
       </Stack>

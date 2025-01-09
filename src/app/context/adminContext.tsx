@@ -12,6 +12,8 @@ import { crendentialType } from "../interface/interface";
 interface UserContextType {
   adminCrendential: crendentialType;
   setAdminCrendential: Dispatch<SetStateAction<crendentialType>>;
+  adminLoadingButton: boolean;
+  setAdminLoadingButton: Dispatch<SetStateAction<boolean>>;
 }
 
 const AdminContext = createContext<UserContextType | undefined>(undefined);
@@ -21,17 +23,18 @@ interface ContextProps {
 }
 
 const AdminProvider: React.FC<ContextProps> = ({ children }) => {
-    
   const [adminCrendential, setAdminCrendential] = useState<crendentialType>({
     username: "",
     password: "",
   });
-
+  const [adminLoadingButton, setAdminLoadingButton] = useState<boolean>(false);
   return (
     <AdminContext.Provider
       value={{
         adminCrendential,
         setAdminCrendential,
+        adminLoadingButton,
+        setAdminLoadingButton,
       }}
     >
       {children}

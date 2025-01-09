@@ -8,15 +8,19 @@ import {
 import { useUserContext } from "@/app/context/userContext";
 
 export default function UserService() {
-  const { userCrendential, newUserCrendential } = useUserContext();
+  const { userCrendential, newUserCrendential, setUserLoadingButton } =
+    useUserContext();
 
   const userLogin = async () => {
     try {
+      setUserLoadingButton(true);
       const response = await userLoginRequest(userCrendential);
       if (response.status === 200) {
         toast.success(response.data.message ?? "Login Success");
+        setUserLoadingButton(false);
       }
     } catch (err) {
+      setUserLoadingButton(false);
       console.log(err);
       toast.error((err as any).response.data.message ?? "Login Failed");
       // eslint-disable-next-line
@@ -24,13 +28,16 @@ export default function UserService() {
   };
   const createAccount = async () => {
     try {
+      setUserLoadingButton(true);
       const response = await createAccountRequest(newUserCrendential);
       if (response.status === 201) {
         toast.success(response.data.message ?? "Account Created");
+        setUserLoadingButton(false);
       }
     } catch (err) {
       console.log(err);
       toast.error((err as any).response.data.message ?? "Login Failed");
+      setUserLoadingButton(false);
       // eslint-disable-next-line
     }
   };

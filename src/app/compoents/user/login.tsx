@@ -25,7 +25,7 @@ import userService from "@/app/service/userService";
 export default function Login() {
   const router = useRouter();
   const { userLogin } = userService();
-  const { setUserCrendential } = useUserContext();
+  const { setUserCrendential, userLoadingButton } = useUserContext();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -147,7 +147,11 @@ export default function Login() {
               </Box>
             </Box>
             <Box>
-              <LoadingButton type="submit" variant="contained">
+              <LoadingButton
+                type="submit"
+                variant="contained"
+                loading={userLoadingButton}
+              >
                 LOGIN
               </LoadingButton>
             </Box>
