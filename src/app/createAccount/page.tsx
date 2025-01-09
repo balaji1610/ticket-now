@@ -1,7 +1,8 @@
+import SignUp from "../compoents/user/signup";
 export default function CreateAccount() {
   return (
     <div>
-      <h1>Create Account</h1>
+      <SignUp />
     </div>
   );
 }

@@ -1,11 +1,14 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { userLoginRequest } from "../../../services/services";
+import {
+  userLoginRequest,
+  createAccountRequest,
+} from "../../../services/services";
 import { useUserContext } from "@/app/context/userContext";
 
 export default function UserService() {
-  const { userCrendential } = useUserContext();
+  const { userCrendential, newUserCrendential } = useUserContext();
 
   const userLogin = async () => {
     try {
@@ -19,8 +22,21 @@ export default function UserService() {
       // eslint-disable-next-line
     }
   };
+  const createAccount = async () => {
+    try {
+      const response = await createAccountRequest(newUserCrendential);
+      if (response.status === 201) {
+        toast.success(response.data.message ?? "Account Created");
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error((err as any).response.data.message ?? "Login Failed");
+      // eslint-disable-next-line
+    }
+  };
 
   return {
     userLogin,
+    createAccount,
   };
 }

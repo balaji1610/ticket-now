@@ -12,6 +12,8 @@ import { crendentialType } from "../interface/interface";
 interface UserContextType {
   userCrendential: crendentialType;
   setUserCrendential: Dispatch<SetStateAction<crendentialType>>;
+  newUserCrendential: crendentialType;
+  setNewUserCrendential: Dispatch<SetStateAction<crendentialType>>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -25,9 +27,22 @@ const UserProvider: React.FC<ContextProps> = ({ children }) => {
     username: "",
     password: "",
   });
+  const [newUserCrendential, setNewUserCrendential] = useState<crendentialType>(
+    {
+      username: "",
+      password: "",
+    }
+  );
 
   return (
-    <UserContext.Provider value={{ userCrendential, setUserCrendential }}>
+    <UserContext.Provider
+      value={{
+        userCrendential,
+        setUserCrendential,
+        newUserCrendential,
+        setNewUserCrendential,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

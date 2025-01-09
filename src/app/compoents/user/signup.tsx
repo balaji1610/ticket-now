@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Box, Stack } from "@mui/material";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import IconButton from "@mui/material/IconButton";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
@@ -12,20 +11,21 @@ import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Typography from "@mui/material/Typography";
-import LoadingButton from "@mui/lab/LoadingButton";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PersonAddAltRoundedIcon from "@mui/icons-material/PersonAddAltRounded";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { FormHelperText } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { useUserContext } from "@/app/context/userContext";
+import userservice from "@/app/service/userService";
 import { crendentialType } from "@/app/interface/interface";
-import userService from "@/app/service/userService";
 
-export default function Login() {
+export default function Singup() {
   const router = useRouter();
-  const { userLogin } = userService();
-  const { setUserCrendential } = useUserContext();
+  const { setNewUserCrendential } = useUserContext();
+  const { createAccount } = userservice();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -35,7 +35,7 @@ export default function Login() {
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = event.target;
-    setUserCrendential((prev: crendentialType) => {
+    setNewUserCrendential((prev: crendentialType) => {
       return { ...prev, [name]: value };
     });
   };
@@ -55,7 +55,7 @@ export default function Login() {
     }),
 
     onSubmit: () => {
-      userLogin();
+      createAccount();
     },
   });
 
@@ -83,9 +83,11 @@ export default function Login() {
             justifyContent="center"
             alignItems="center"
           >
-            {" "}
             <Box>
-              <AccountCircleIcon color="primary" fontSize="large" />
+              <PersonAddAltRoundedIcon color="primary" fontSize="large" />
+            </Box>
+            <Box>
+              <Typography variant="subtitle1">Create a new account</Typography>
             </Box>
             <Box>
               <TextField
@@ -94,7 +96,6 @@ export default function Login() {
                 sx={{ width: "16rem" }}
                 type="email"
                 name="username"
-                value={formik.values.username}
                 onChange={(event) => {
                   handleOnchange(event);
                   formik.handleChange(event);
@@ -137,7 +138,6 @@ export default function Login() {
                   />
                 </FormControl>
               </Box>
-
               <Box sx={{ width: "14vw", height: "5vh" }}>
                 {formik.touched.password && formik.errors.password && (
                   <FormHelperText error sx={{ width: "17rem" }}>
@@ -148,18 +148,18 @@ export default function Login() {
             </Box>
             <Box>
               <LoadingButton type="submit" variant="contained">
-                LOGIN
+                SIGN UP
               </LoadingButton>
             </Box>
             <Box>
-              Don&apos;t have an account yet ?
+              Already have an account ?
               <Typography
                 variant="subtitle1"
                 color="primary"
-                sx={{ display: "inline-block", cursor: "pointer" }}
-                onClick={() => router.push("./createAccount")}
+                sx={{ textAlign: "center", cursor: "pointer" }}
+                onClick={() => router.push("./")}
               >
-                &nbsp;Create account
+                Login
               </Typography>
             </Box>
           </Stack>
