@@ -1,7 +1,8 @@
+import AdminLogin from "@/app/compoents/admin/adminLogin";
 export default function Admin() {
   return (
     <div>
-      <h1>Admin</h1>
+      <AdminLogin />
     </div>
   );
 }

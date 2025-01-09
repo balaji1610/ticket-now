@@ -18,14 +18,14 @@ import "react-toastify/dist/ReactToastify.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { FormHelperText } from "@mui/material";
-import { useUserContext } from "@/app/context/userContext";
+import { useAdminContext } from "@/app/context/adminContext";
 import { crendentialType } from "@/app/interface/interface";
-import userService from "@/app/service/userService";
+import adminService from "@/app/service/adminService";
 
-export default function Login() {
+export default function AdminLogin() {
   const router = useRouter();
-  const { userLogin } = userService();
-  const { setUserCrendential } = useUserContext();
+  const { adminLogin } = adminService();
+  const { setAdminCrendential } = useAdminContext();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -35,7 +35,7 @@ export default function Login() {
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = event.target;
-    setUserCrendential((prev: crendentialType) => {
+    setAdminCrendential((prev: crendentialType) => {
       return { ...prev, [name]: value };
     });
   };
@@ -55,7 +55,7 @@ export default function Login() {
     }),
 
     onSubmit: () => {
-      userLogin();
+      adminLogin();
     },
   });
 
@@ -86,6 +86,9 @@ export default function Login() {
             {" "}
             <Box>
               <AccountCircleIcon color="primary" fontSize="large" />
+            </Box>
+            <Box>
+              <Typography variant="h5">Admin</Typography>
             </Box>
             <Box>
               <TextField
@@ -151,27 +154,7 @@ export default function Login() {
                 LOGIN
               </LoadingButton>
             </Box>
-            <Box>
-              Don&apos;t have an account yet ?
-              <Typography
-                variant="subtitle1"
-                color="primary"
-                sx={{ display: "inline-block", cursor: "pointer" }}
-                onClick={() => router.push("./createAccount")}
-              >
-                &nbsp;Create account
-              </Typography>
-            </Box>
-            <Box>
-              <Typography
-                variant="subtitle1"
-                color="primary"
-                sx={{ display: "inline-block", cursor: "pointer" }}
-                onClick={() => router.push("./admin")}
-              >
-                Admin
-              </Typography>
-            </Box>
+            <Box></Box>
           </Stack>
         </Box>
       </Stack>
