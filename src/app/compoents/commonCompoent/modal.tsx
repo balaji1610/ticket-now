@@ -19,7 +19,7 @@ const Modal: React.FC<ModalProps> = ({
   component,
 }) => {
   return (
-    <Dialog open={open} maxWidth="xs" onClose={handleClose}>
+    <Dialog open={open} maxWidth="xl" onClose={handleClose}>
       <IconButton
         aria-label="close"
         onClick={handleClose}
@@ -42,7 +42,6 @@ const Modal: React.FC<ModalProps> = ({
       >
         <h2 style={{ fontFamily: "'Roboto'" }}>{title}</h2>
       </DialogTitle>
-
       <DialogActions>
         <Grid container>
           <Grid size={{ xs: 12 }}>{component}</Grid>
