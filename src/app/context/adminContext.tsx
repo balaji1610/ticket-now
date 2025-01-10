@@ -14,6 +14,8 @@ interface UserContextType {
   setAdminCrendential: Dispatch<SetStateAction<crendentialType>>;
   adminLoadingButton: boolean;
   setAdminLoadingButton: Dispatch<SetStateAction<boolean>>;
+  isAddEventOpen: boolean;
+  setIsAddEventOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const AdminContext = createContext<UserContextType | undefined>(undefined);
@@ -28,6 +30,8 @@ const AdminProvider: React.FC<ContextProps> = ({ children }) => {
     password: "",
   });
   const [adminLoadingButton, setAdminLoadingButton] = useState<boolean>(false);
+  const [isAddEventOpen, setIsAddEventOpen] = useState<boolean>(false);
+
   return (
     <AdminContext.Provider
       value={{
@@ -35,6 +39,8 @@ const AdminProvider: React.FC<ContextProps> = ({ children }) => {
         setAdminCrendential,
         adminLoadingButton,
         setAdminLoadingButton,
+        isAddEventOpen,
+        setIsAddEventOpen,
       }}
     >
       {children}

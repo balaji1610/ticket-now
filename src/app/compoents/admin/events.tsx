@@ -3,6 +3,8 @@ import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid2";
 import Button from "@mui/material/Button";
+
+import AddEvent from "./addEvent";
 export default function Events() {
   return (
     <Stack spacing={5}>
@@ -17,10 +19,7 @@ export default function Events() {
           spacing={2}
         >
           <Grid size={{ xs: 5, md: 5 }}>
-            {" "}
-            <Button variant="contained" color="success">
-              Add Event
-            </Button>
+            <AddEvent />
           </Grid>
           <Grid size={{ xs: 5, md: 5 }}>Filter Events</Grid>
         </Grid>
