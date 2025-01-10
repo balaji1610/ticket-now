@@ -1,7 +1,13 @@
-export default function Dashboard() {
+"use client";
+
+import AdminDashboard from "@/app/compoents/admin/adminDashboard";
+import Events from "@/app/compoents/admin/events";
+export default function DashBoard() {
   return (
     <div>
-      <h1>Dashboard</h1>
+      <AdminDashboard>
+        <Events />
+      </AdminDashboard>
     </div>
   );
 }
