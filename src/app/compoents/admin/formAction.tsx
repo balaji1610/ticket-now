@@ -10,16 +10,13 @@ import Grid from "@mui/material/Grid2";
 import Dropdown from "@/app/compoents/commonCompoent/dropdown";
 import { useAdminContext } from "@/app/context/adminContext";
 import { CategoryOptions, PriceOptions } from "@/app/lib/lib";
-import eventRecord from "@/app/utils/eventRecord";
-import {
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
-  FormHelperText,
-} from "@mui/material";
+import adminService from "@/app/service/adminService";
+
 export default function FormAction() {
-  const { singleEventRecord, setSingleEventRecord } = useAdminContext();
+  const { singleEventRecord, setSingleEventRecord, adminLoadingButton } =
+    useAdminContext();
+
+  const { createEvent } = adminService();
 
   const handleOnchange = (event: any) => {
     const { name, value } = event.target;
@@ -29,21 +26,8 @@ export default function FormAction() {
     });
   };
 
-  const handleOnCategory = (e: any) => {
-    setSingleEventRecord((prev: any) => {
-      return { ...prev, ["eventCategory"]: e.target.value };
-    });
-  };
-
-  const handleOnTicketPrice = (e: any) => {
-    setSingleEventRecord((prev: any) => {
-      return { ...prev, ["ticketPrice"]: e.target.value };
-    });
-  };
-
   const formik = useFormik({
     initialValues: singleEventRecord,
-
     validationSchema: Yup.object({
       eventName: Yup.string().required("Event name is required"),
       description: Yup.string().required("Description is required"),
@@ -57,9 +41,8 @@ export default function FormAction() {
       ),
     }),
 
-    onSubmit: (values) => {
-      alert("d");
-      console.log(singleEventRecord);
+    onSubmit: () => {
+      createEvent();
     },
   });
 
@@ -225,7 +208,11 @@ export default function FormAction() {
           />
         </Box>
         <Box sx={{ textAlign: "center" }}>
-          <LoadingButton type="submit" variant="contained">
+          <LoadingButton
+            type="submit"
+            variant="contained"
+            loading={adminLoadingButton}
+          >
             Add
           </LoadingButton>
         </Box>
