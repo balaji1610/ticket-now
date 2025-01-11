@@ -8,44 +8,41 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Grid from "@mui/material/Grid2";
 import Dropdown from "@/app/compoents/commonCompoent/dropdown";
+import { useAdminContext } from "@/app/context/adminContext";
+import { CategoryOptions, PriceOptions } from "@/app/lib/lib";
 export default function FormAction() {
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const { singleEventRecord, setSingleEventRecord } = useAdminContext();
 
-  const CategoryOptions = [
-    {
-      label: "music",
-      value: "music",
-    },
-    {
-      label: "comdey",
-      value: "comedy",
-    },
-    {
-      label: "workshop",
-      value: "workshop",
-    },
-  ];
-  const handleOnCatogery = (e: any) => {
-    setSelectedCategory(e.target.value);
+  const handleOnCategory = (e: any) => {
+    setSingleEventRecord((prev: any) => {
+      return { ...prev, ["eventCategory"]: e.target.value };
+    });
+  };
+
+  const handleOnTicketPrice = (e: any) => {
+    setSingleEventRecord((prev: any) => {
+      return { ...prev, ["ticketPrice"]: e.target.value };
+    });
   };
 
   const formik = useFormik({
-    initialValues: {
-      name: "",
-      description: "",
-      date: "",
-      venue: "",
-    },
+    initialValues: singleEventRecord,
 
     validationSchema: Yup.object({
-      name: Yup.string().required("Event name is required"),
+      eventName: Yup.string().required("Event name is required"),
       description: Yup.string().required("Description is required"),
       date: Yup.date().required("Event date is required").nullable(),
       venue: Yup.string().required("Venue is required"),
+      eventCategory: Yup.string().required("eventCategory is required"),
+      ticketPrice: Yup.number().required("ticketPrice is required"),
+      thumbnailImage: Yup.string().matches(
+        /https?:\/\/[^\s]+?\.(jpg|png|jpeg)$/i,
+        "Required:is Only Valid jpg | jpeg |png"
+      ),
     }),
 
     onSubmit: (values) => {
-      console.log(values);
+      console.log(values, "submit");
     },
   });
 
@@ -60,11 +57,13 @@ export default function FormAction() {
                   required
                   label="Event Name"
                   type="text"
-                  name="name"
+                  name="eventName"
                   value={formik.values.name}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  helperText={formik.touched.name && formik.errors.name}
+                  helperText={
+                    formik.touched.name && (formik.errors.name as any)
+                  }
                   error={formik.touched.name && Boolean(formik.errors.name)}
                   size="small"
                 />
@@ -79,7 +78,9 @@ export default function FormAction() {
                   value={formik.values.date}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  helperText={formik.touched.date && formik.errors.date}
+                  helperText={
+                    formik.touched.date && (formik.errors.date as any)
+                  }
                   error={formik.touched.date && Boolean(formik.errors.date)}
                   size="small"
                   slotProps={{ inputLabel: { shrink: true } }}
@@ -95,7 +96,9 @@ export default function FormAction() {
                   value={formik.values.venue}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  helperText={formik.touched.venue && formik.errors.venue}
+                  helperText={
+                    formik.touched.venue && (formik.errors.venue as any)
+                  }
                   error={formik.touched.venue && Boolean(formik.errors.venue)}
                   size="small"
                 />
@@ -117,7 +120,8 @@ export default function FormAction() {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   helperText={
-                    formik.touched.description && formik.errors.description
+                    formik.touched.description &&
+                    (formik.errors.description as any)
                   }
                   error={
                     formik.touched.description &&
@@ -130,21 +134,53 @@ export default function FormAction() {
                   <Box>
                     {" "}
                     <Dropdown
-                      value={selectedCategory}
+                      value={singleEventRecord.eventCategory}
                       options={CategoryOptions}
-                      handleDropdownChange={handleOnCatogery}
+                      handleDropdownChange={handleOnCategory}
                       label="Category"
                     />
                   </Box>
-                  <Box>Ticket Price</Box>
+                  <Box>
+                    {" "}
+                    <Dropdown
+                      value={singleEventRecord.ticketPrice}
+                      options={PriceOptions}
+                      handleDropdownChange={handleOnTicketPrice}
+                      label="Price"
+                    />
+                  </Box>
                 </Stack>
               </Box>
             </Stack>
           </Grid>
         </Grid>
-        <LoadingButton type="submit" variant="contained">
-          Add{" "}
-        </LoadingButton>
+        <Box sx={{ margin: "10px 10px" }}>
+          <TextField
+            required
+            fullWidth
+            type="text"
+            name="thumbnailImage"
+            label="Image Link"
+            size="small"
+            value={formik.values.thumbnailImage}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            helperText={
+              formik.touched.thumbnailImage &&
+              (formik.errors.thumbnailImage as any)
+            }
+            error={
+              formik.touched.thumbnailImage &&
+              Boolean(formik.errors.thumbnailImage)
+            }
+            placeholder="https://www.example.com/image.jpg/png/jpeg"
+          />
+        </Box>
+        <Box sx={{ textAlign: "center" }}>
+          <LoadingButton type="submit" variant="contained">
+            Add
+          </LoadingButton>
+        </Box>
       </Box>
       <ToastContainer position="top-right" autoClose={2000} />
     </Box>

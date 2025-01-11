@@ -8,7 +8,7 @@ import React, {
   SetStateAction,
 } from "react";
 import { crendentialType } from "../interface/interface";
-
+import eventRecord from "@/app/utils/eventRecord";
 interface UserContextType {
   adminCrendential: crendentialType;
   setAdminCrendential: Dispatch<SetStateAction<crendentialType>>;
@@ -16,6 +16,8 @@ interface UserContextType {
   setAdminLoadingButton: Dispatch<SetStateAction<boolean>>;
   isAddEventOpen: boolean;
   setIsAddEventOpen: Dispatch<SetStateAction<boolean>>;
+  singleEventRecord: any;
+  setSingleEventRecord: Dispatch<SetStateAction<any>>;
 }
 
 const AdminContext = createContext<UserContextType | undefined>(undefined);
@@ -32,6 +34,8 @@ const AdminProvider: React.FC<ContextProps> = ({ children }) => {
   const [adminLoadingButton, setAdminLoadingButton] = useState<boolean>(false);
   const [isAddEventOpen, setIsAddEventOpen] = useState<boolean>(false);
 
+  const [singleEventRecord, setSingleEventRecord] = useState<any>(eventRecord);
+
   return (
     <AdminContext.Provider
       value={{
@@ -41,6 +45,8 @@ const AdminProvider: React.FC<ContextProps> = ({ children }) => {
         setAdminLoadingButton,
         isAddEventOpen,
         setIsAddEventOpen,
+        singleEventRecord,
+        setSingleEventRecord,
       }}
     >
       {children}
