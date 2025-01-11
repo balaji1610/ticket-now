@@ -11,13 +11,19 @@ import Dropdown from "@/app/compoents/commonCompoent/dropdown";
 import { useAdminContext } from "@/app/context/adminContext";
 import { CategoryOptions, PriceOptions } from "@/app/lib/lib";
 import eventRecord from "@/app/utils/eventRecord";
+import {
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+  FormHelperText,
+} from "@mui/material";
 export default function FormAction() {
   const { singleEventRecord, setSingleEventRecord } = useAdminContext();
 
-  const handleOnchange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleOnchange = (event: any) => {
     const { name, value } = event.target;
+
     setSingleEventRecord((prev: any) => {
       return { ...prev, [name]: value };
     });
@@ -36,17 +42,7 @@ export default function FormAction() {
   };
 
   const formik = useFormik({
-    initialValues: {
-      eventName: "",
-      description: "",
-      date: "",
-      venue: "",
-      thumbnailImage: "",
-      eventCategory: "",
-      ticketPrice: "null",
-      createdEvent: "",
-      TicketStatus: "available",
-    },
+    initialValues: singleEventRecord,
 
     validationSchema: Yup.object({
       eventName: Yup.string().required("Event name is required"),
@@ -62,11 +58,8 @@ export default function FormAction() {
     }),
 
     onSubmit: (values) => {
-      // Log submitted values
-      console.log("Form Submitted", values);
-
-      // Test Submission
-      alert("Form Submitted");
+      alert("d");
+      console.log(singleEventRecord);
     },
   });
 
@@ -164,20 +157,42 @@ export default function FormAction() {
                 <Stack direction="row" spacing={2}>
                   <Box>
                     <Dropdown
-                      value={singleEventRecord.eventCategory}
+                      value={formik.values.eventCategory}
                       options={CategoryOptions}
-                      handleDropdownChange={handleOnCategory}
+                      handleDropdownChange={(event: any) => {
+                        handleOnchange(event);
+                        formik.handleChange(event);
+                      }}
                       label="Category"
                       name="eventCategory"
+                      error={
+                        formik.touched.eventCategory &&
+                        Boolean(formik.errors.eventCategory)
+                      }
+                      helperText={
+                        formik.touched.eventCategory &&
+                        formik.errors.eventCategory
+                      }
                     />
                   </Box>
                   <Box>
+                    {" "}
                     <Dropdown
-                      value={singleEventRecord.ticketPrice}
+                      value={formik.values.ticketPrice}
                       options={PriceOptions}
-                      handleDropdownChange={handleOnTicketPrice}
-                      label="Price"
+                      handleDropdownChange={(event: any) => {
+                        handleOnchange(event);
+                        formik.handleChange(event);
+                      }}
+                      label="ticketPrice"
                       name="ticketPrice"
+                      error={
+                        formik.touched.ticketPrice &&
+                        Boolean(formik.errors.ticketPrice)
+                      }
+                      helperText={
+                        formik.touched.ticketPrice && formik.errors.ticketPrice
+                      }
                     />
                   </Box>
                 </Stack>

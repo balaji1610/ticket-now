@@ -6,7 +6,7 @@ const eventRecord: any = {
   venue: "",
   thumbnailImage: "",
   eventCategory: "",
-  ticketPrice: "null",
+  ticketPrice: null,
   seats: createSeatNumber(),
   createdEvent: "",
   TicketStatus: "avilable",

@@ -1,4 +1,10 @@
-import { MenuItem, Select, InputLabel, FormControl } from "@mui/material";
+import {
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+  FormHelperText,
+} from "@mui/material";
 interface DropdownTypes {
   value?: string;
   options?: [{ label: string; value: string }];
@@ -6,7 +12,15 @@ interface DropdownTypes {
 }
 
 export default function Dropdown(props: any) {
-  const { value, options, handleDropdownChange, label, name } = props;
+  const {
+    value,
+    options,
+    handleDropdownChange,
+    label,
+    name,
+    error,
+    helperText,
+  } = props;
 
   return (
     <div
@@ -17,14 +31,14 @@ export default function Dropdown(props: any) {
         alignItems: "center",
       }}
     >
-      <FormControl sx={{ m: 1, minWidth: 120 }}>
+      <FormControl sx={{ m: 1, minWidth: 120 }} error={error}>
         <InputLabel>{label}</InputLabel>
 
         <Select
           value={value}
           onChange={handleDropdownChange}
-          name={name}
           label={label}
+          name={name}
         >
           {options.map((el: any, index: number) => {
             return (
@@ -34,6 +48,7 @@ export default function Dropdown(props: any) {
             );
           })}
         </Select>
+        <FormHelperText>{helperText}</FormHelperText>
       </FormControl>
     </div>
   );
