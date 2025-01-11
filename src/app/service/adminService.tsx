@@ -10,8 +10,10 @@ import {
 } from "../../../services/services";
 import { useAdminContext } from "@/app/context/adminContext";
 import eventRecord from "@/app/utils/eventRecord";
+import { useRouter } from "next/navigation";
 
 export default function UserService() {
+  const router = useRouter();
   const {
     adminCrendential,
     setAdminLoadingButton,
@@ -36,6 +38,7 @@ export default function UserService() {
       if (response.status === 200) {
         toast.success(response.data.message ?? "Admin Login Success");
         setAdminLoadingButton(false);
+        router.push("./admin/dashboard");
       }
     } catch (err) {
       console.log(err);
