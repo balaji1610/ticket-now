@@ -183,31 +183,42 @@ export default function FormAction() {
             </Stack>
           </Grid>
         </Grid>
-        <Box sx={{ margin: "10px 10px" }}>
-          <TextField
-            required
-            fullWidth
-            type="text"
-            name="thumbnailImage"
-            label="Image Link"
-            size="small"
-            value={formik.values.thumbnailImage}
-            onChange={(event) => {
-              handleOnchange(event);
-              formik.handleChange(event);
-            }}
-            helperText={
-              formik.touched.thumbnailImage &&
-              (formik.errors.thumbnailImage as any)
-            }
-            error={
-              formik.touched.thumbnailImage &&
-              Boolean(formik.errors.thumbnailImage)
-            }
-            placeholder="https://www.example.com/image.jpg/png/jpeg"
-          />
-        </Box>
-        <Box sx={{ textAlign: "center" }}>
+        <Grid container>
+          <Grid size={{ md: 12, sm: 6, xl: 12 }}>
+            <Box sx={{ margin: "10px 10px" }}>
+              <TextField
+                required
+                fullWidth
+                type="text"
+                name="thumbnailImage"
+                label="Image Link"
+                size="small"
+                value={formik.values.thumbnailImage}
+                onChange={(event) => {
+                  handleOnchange(event);
+                  formik.handleChange(event);
+                }}
+                helperText={
+                  formik.touched.thumbnailImage &&
+                  (formik.errors.thumbnailImage as any)
+                }
+                error={
+                  formik.touched.thumbnailImage &&
+                  Boolean(formik.errors.thumbnailImage)
+                }
+                placeholder="https://www.example.com/image.jpg/png/jpeg"
+              />
+            </Box>
+          </Grid>
+        </Grid>
+
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
           <LoadingButton
             type="submit"
             variant="contained"

@@ -15,11 +15,7 @@ export default function AddEvent() {
 
   return (
     <>
-      <Button
-        variant="contained"
-        color="success"
-        onClick={() => setIsAddEventOpen(true)}
-      >
+      <Button variant="contained" onClick={() => setIsAddEventOpen(true)}>
         Add Event
       </Button>
       <Modal

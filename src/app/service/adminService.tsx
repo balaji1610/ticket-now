@@ -45,6 +45,7 @@ export default function UserService() {
         toast.success(response.data.message ?? "Event Created");
         setAdminLoadingButton(false);
         await delay(2000);
+        getAllEvents();
         setIsAddEventOpen(false);
         setSingleEventRecord(eventRecord);
       }
@@ -63,7 +64,7 @@ export default function UserService() {
       setIsLoading(true);
       const response = await getAllEventsRequest();
       if (response.status === 200) {
-        setAllEvents(response.data);
+        setAllEvents(response.data.reverse());
         setIsLoading(false);
       }
     } catch (err) {
