@@ -36,3 +36,8 @@ export const createEventRequest = async (newEvent: any) => {
   );
   return response;
 };
+
+export const getAllEventsRequest = async () => {
+  const response = await axios.get(`${process.env.NEXT_PUBLIC_GET_ALL_EVENTS}`);
+  return response;
+};

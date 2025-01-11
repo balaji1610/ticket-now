@@ -3,7 +3,7 @@ import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid2";
 import Button from "@mui/material/Button";
-
+import AdminTable from "./adminTable";
 import AddEvent from "./addEvent";
 export default function Events() {
   return (
@@ -24,7 +24,9 @@ export default function Events() {
           <Grid size={{ xs: 5, md: 5 }}>Filter Events</Grid>
         </Grid>
       </Box>
-      <Box>Table</Box>
+      <Box>
+        <AdminTable />
+      </Box>
     </Stack>
   );
 }

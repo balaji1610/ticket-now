@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import {
   adminLoginRequest,
   createEventRequest,
+  getAllEventsRequest,
 } from "../../../services/services";
 import { useAdminContext } from "@/app/context/adminContext";
 import eventRecord from "@/app/utils/eventRecord";
@@ -15,6 +16,8 @@ export default function UserService() {
     singleEventRecord,
     setSingleEventRecord,
     setIsAddEventOpen,
+    setAllEvents,
+    setIsLoading,
   } = useAdminContext();
   const delay = (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));
@@ -55,8 +58,21 @@ export default function UserService() {
     }
   };
 
+  const getAllEvents = async () => {
+    try {
+      setIsLoading(true);
+      const response = await getAllEventsRequest();
+      if (response.status === 200) {
+        setAllEvents(response.data);
+        setIsLoading(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return {
     adminLogin,
     createEvent,
+    getAllEvents,
   };
 }

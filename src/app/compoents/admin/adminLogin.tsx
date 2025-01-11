@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Box, Stack } from "@mui/material";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
@@ -24,7 +24,7 @@ import adminService from "@/app/service/adminService";
 
 export default function AdminLogin() {
   const router = useRouter();
-  const { adminLogin } = adminService();
+  const { adminLogin, getAllEvents } = adminService();
   const { setAdminCrendential, adminLoadingButton } = useAdminContext();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
