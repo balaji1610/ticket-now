@@ -28,6 +28,8 @@ interface UserContextType {
   setIsEdit: Dispatch<SetStateAction<boolean>>;
   updateEventId: string;
   setUpdateEventId: Dispatch<SetStateAction<string>>;
+  isDeleteLoadingButton: boolean;
+  setIsDeleteLoadingButton: Dispatch<SetStateAction<boolean>>;
 }
 
 const AdminContext = createContext<UserContextType | undefined>(undefined);
@@ -42,6 +44,8 @@ const AdminProvider: React.FC<ContextProps> = ({ children }) => {
     password: "",
   });
   const [adminLoadingButton, setAdminLoadingButton] = useState<boolean>(false);
+  const [isDeleteLoadingButton, setIsDeleteLoadingButton] =
+    useState<boolean>(false);
   const [isAddEventOpen, setIsAddEventOpen] = useState<boolean>(false);
 
   const [singleEventRecord, setSingleEventRecord] = useState<any>(eventRecord);
@@ -49,6 +53,7 @@ const AdminProvider: React.FC<ContextProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [updateEventId, setUpdateEventId] = useState<string>("");
+
   return (
     <AdminContext.Provider
       value={{
@@ -68,6 +73,8 @@ const AdminProvider: React.FC<ContextProps> = ({ children }) => {
         setIsEdit,
         updateEventId,
         setUpdateEventId,
+        isDeleteLoadingButton,
+        setIsDeleteLoadingButton,
       }}
     >
       {children}

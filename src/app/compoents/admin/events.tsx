@@ -21,7 +21,7 @@ export default function Events() {
           <Grid size={{ xs: 5, md: 5 }}>
             <AddEvent />
           </Grid>
-          <Grid size={{ xs: 5, md: 5 }}>Filter Events</Grid>
+          <Grid size={{ xs: 5, md: 5 }}></Grid>
         </Grid>
       </Box>
       <Box>

@@ -6,6 +6,7 @@ import {
   createEventRequest,
   getAllEventsRequest,
   updateEventRequest,
+  deleteEventRequest,
 } from "../../../services/services";
 import { useAdminContext } from "@/app/context/adminContext";
 import eventRecord from "@/app/utils/eventRecord";
@@ -22,6 +23,7 @@ export default function UserService() {
     setIsEdit,
     setUpdateEventId,
     updateEventId,
+    setIsDeleteLoadingButton,
   } = useAdminContext();
 
   const delay = (ms: number) =>
@@ -95,6 +97,25 @@ export default function UserService() {
       setUpdateEventId("");
     }
   };
+
+  const deleteEvent = async (deleteEventId: string) => {
+    try {
+      setIsDeleteLoadingButton(true);
+      const response = await deleteEventRequest(deleteEventId);
+      if (response.status === 200) {
+        toast.success(response.data.message ?? "Deleted");
+        await delay(2000);
+        setIsDeleteLoadingButton(false);
+        getAllEvents();
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error(
+        (err as any).response.data.message ?? "Something Went Wrong !"
+      );
+      setIsDeleteLoadingButton(false);
+    }
+  };
   const getAllEvents = async () => {
     try {
       setIsLoading(true);
@@ -113,5 +134,6 @@ export default function UserService() {
     createEvent,
     getAllEvents,
     updateEvent,
+    deleteEvent,
   };
 }

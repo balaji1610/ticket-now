@@ -42,10 +42,20 @@ export const getAllEventsRequest = async () => {
   return response;
 };
 
+//updateEvent
 export const updateEventRequest = async (eventID: string, updateEvent: any) => {
   const response = await axios.put(
     `${process.env.NEXT_PUBLIC_UPDATE_EVENT}/${eventID}`,
     updateEvent
+  );
+  return response;
+};
+
+//deleteEvent
+
+export const deleteEventRequest = async (deleteEventId: string) => {
+  const response = await axios.delete(
+    `${process.env.NEXT_PUBLIC_DELETE_EVENT}/${deleteEventId}`
   );
   return response;
 };

@@ -1,10 +1,11 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import adminService from "@/app/service/adminService";
 import { useAdminContext } from "@/app/context/adminContext";
 import { SkeletonTable } from "@/app/lib/lib";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -13,8 +14,9 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
 export default function AdminTable() {
-  const { getAllEvents } = adminService();
+  const { getAllEvents, deleteEvent } = adminService();
   const {
     allEvents,
     isLoading,
@@ -22,7 +24,11 @@ export default function AdminTable() {
     setUpdateEventId,
     setSingleEventRecord,
     setIsAddEventOpen,
+    adminLoadingButton,
+    isDeleteLoadingButton,
   } = useAdminContext();
+
+  const [deleteIndex, setDeleteIndex] = useState<null | number>(null);
 
   useEffect(() => {
     getAllEvents();
@@ -33,6 +39,11 @@ export default function AdminTable() {
     setUpdateEventId(editId);
     setSingleEventRecord(editData);
     setIsAddEventOpen(true);
+  };
+
+  const handleOnDeleteClick = (deleteid: string, index: number) => {
+    deleteEvent(deleteid);
+    setDeleteIndex(index);
   };
 
   return (
@@ -72,8 +83,14 @@ export default function AdminTable() {
               </TableRow>
             </TableHead>{" "}
             <TableBody>
-              {allEvents.map((event: any) => {
-                const { _id, eventName, date, venue, eventCategory } = event;
+              {allEvents.map((event: any, index: number) => {
+                const {
+                  _id: eventID,
+                  eventName,
+                  date,
+                  venue,
+                  eventCategory,
+                } = event;
                 return (
                   <TableRow>
                     <TableCell>{eventName}</TableCell>
@@ -85,16 +102,20 @@ export default function AdminTable() {
                       <Button
                         variant="contained"
                         color="success"
-                        onClick={() => handleOnEditClick(_id, event)}
+                        onClick={() => handleOnEditClick(eventID, event)}
                       >
                         Edit
                       </Button>
                     </TableCell>
                     <TableCell>
-                      {" "}
-                      <Button variant="contained" color="error">
+                      <LoadingButton
+                        variant="contained"
+                        color="error"
+                        loading={deleteIndex === index && isDeleteLoadingButton}
+                        onClick={() => handleOnDeleteClick(eventID, index)}
+                      >
                         Delete
-                      </Button>
+                      </LoadingButton>
                     </TableCell>
                   </TableRow>
                 );
@@ -103,6 +124,7 @@ export default function AdminTable() {
           </Table>
         </TableContainer>
       )}
+      <ToastContainer position="top-right" autoClose={2000} />
     </div>
   );
 }

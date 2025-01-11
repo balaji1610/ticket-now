@@ -1,8 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
-import HomeIcon from "@mui/icons-material/Home";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
+
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -13,6 +12,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import CloseIcon from "@mui/icons-material/Close";
 import { useRouter } from "next/navigation";
 import LogoutIcon from "@mui/icons-material/Logout";
+import GridViewIcon from "@mui/icons-material/GridView";
+import EqualizerIcon from "@mui/icons-material/Equalizer";
 
 export default function Sidebar() {
   const router = useRouter();
@@ -29,8 +30,8 @@ export default function Sidebar() {
     const routering: {
       [x: string]: string;
     } = {
-      HOME: "/",
-      "PRAYER TIME": "/prayer-time",
+      Dashboard: "",
+      Analytics: "",
     };
     router.push(routering[currentRoute as string]);
   };
@@ -56,14 +57,14 @@ export default function Sidebar() {
       <div>
         {" "}
         <List>
-          {["HOME", "PRAYER TIME"].map((text, index) => (
+          {["Dashboard", "Analytics"].map((text, index) => (
             <ListItem key={text}>
               <ListItemButton
                 sx={{ height: "3rem" }}
                 onClick={() => handleOnRouting(text)}
               >
                 <ListItemIcon>
-                  {index % 2 === 0 ? <HomeIcon /> : <AccessTimeIcon />}
+                  {index % 2 === 0 ? <GridViewIcon /> : <EqualizerIcon />}
                 </ListItemIcon>
                 <p style={{ fontWeight: "600" }}>{text}</p>
               </ListItemButton>
