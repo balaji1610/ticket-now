@@ -1,7 +1,10 @@
+import EventApplication from "../compoents/user/eventApplication";
+import SelectEvent from "@/app/compoents/user/selectEvent";
+
 export default function Events() {
   return (
-    <div>
-      <h1>Events</h1>
-    </div>
+    <EventApplication>
+      <SelectEvent />
+    </EventApplication>
   );
 }

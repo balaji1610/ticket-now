@@ -7,6 +7,7 @@ import {
   TableRow,
   Skeleton,
 } from "@mui/material";
+
 export const createSeatNumber: any = () => {
   const initialSeats = [
     ...Array.from({ length: 10 }, (_, i) => ({

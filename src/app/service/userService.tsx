@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { useRouter } from "next/navigation";
 import {
   userLoginRequest,
   createAccountRequest,
@@ -8,9 +8,10 @@ import {
 import { useUserContext } from "@/app/context/userContext";
 
 export default function UserService() {
+  const router = useRouter();
   const { userCrendential, newUserCrendential, setUserLoadingButton } =
     useUserContext();
-
+  //login
   const userLogin = async () => {
     try {
       setUserLoadingButton(true);
@@ -18,6 +19,7 @@ export default function UserService() {
       if (response.status === 200) {
         toast.success(response.data.message ?? "Login Success");
         setUserLoadingButton(false);
+        router.push("./events");
       }
     } catch (err) {
       setUserLoadingButton(false);
