@@ -26,3 +26,13 @@ export const adminLoginRequest = async (adminCrendential: crendentialType) => {
   );
   return response;
 };
+
+//createEvent
+
+export const createEventRequest = async (newEvent: any) => {
+  const response = await axios.post(
+    `${process.env.NEXT_PUBLIC_ADMIN_CREATE_EVENT_ENDPOINT}`,
+    newEvent
+  );
+  return response;
+};

@@ -6,7 +6,7 @@ interface DropdownTypes {
 }
 
 export default function Dropdown(props: any) {
-  const { value, options, handleDropdownChange, label } = props;
+  const { value, options, handleDropdownChange, label, name } = props;
 
   return (
     <div
@@ -20,7 +20,12 @@ export default function Dropdown(props: any) {
       <FormControl sx={{ m: 1, minWidth: 120 }}>
         <InputLabel>{label}</InputLabel>
 
-        <Select value={value} onChange={handleDropdownChange} label={label}>
+        <Select
+          value={value}
+          onChange={handleDropdownChange}
+          name={name}
+          label={label}
+        >
           {options.map((el: any, index: number) => {
             return (
               <MenuItem key={index} value={el.value}>

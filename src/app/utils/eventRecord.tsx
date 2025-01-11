@@ -1,6 +1,5 @@
 import { createSeatNumber } from "../lib/lib";
-const eventRecord:any= {
-  _id: "",
+const eventRecord: any = {
   eventName: "",
   description: "",
   date: "",

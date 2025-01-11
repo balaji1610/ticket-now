@@ -44,7 +44,9 @@ const Modal: React.FC<ModalProps> = ({
       </DialogTitle>
       <DialogActions>
         <Grid container>
-          <Grid size={{ xs: 12 }}>{component}</Grid>
+          <Grid size={{ xs: 12 }}>
+            <div style={{ padding: "20px 5px 5px 5px" }}>{component}</div>
+          </Grid>
         </Grid>
       </DialogActions>
     </Dialog>

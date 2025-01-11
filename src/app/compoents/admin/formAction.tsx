@@ -10,8 +10,18 @@ import Grid from "@mui/material/Grid2";
 import Dropdown from "@/app/compoents/commonCompoent/dropdown";
 import { useAdminContext } from "@/app/context/adminContext";
 import { CategoryOptions, PriceOptions } from "@/app/lib/lib";
+import eventRecord from "@/app/utils/eventRecord";
 export default function FormAction() {
   const { singleEventRecord, setSingleEventRecord } = useAdminContext();
+
+  const handleOnchange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = event.target;
+    setSingleEventRecord((prev: any) => {
+      return { ...prev, [name]: value };
+    });
+  };
 
   const handleOnCategory = (e: any) => {
     setSingleEventRecord((prev: any) => {
@@ -26,7 +36,17 @@ export default function FormAction() {
   };
 
   const formik = useFormik({
-    initialValues: singleEventRecord,
+    initialValues: {
+      eventName: "",
+      description: "",
+      date: "",
+      venue: "",
+      thumbnailImage: "",
+      eventCategory: "",
+      ticketPrice: "null",
+      createdEvent: "",
+      TicketStatus: "available",
+    },
 
     validationSchema: Yup.object({
       eventName: Yup.string().required("Event name is required"),
@@ -37,12 +57,16 @@ export default function FormAction() {
       ticketPrice: Yup.number().required("ticketPrice is required"),
       thumbnailImage: Yup.string().matches(
         /https?:\/\/[^\s]+?\.(jpg|png|jpeg)$/i,
-        "Required:is Only Valid jpg | jpeg |png"
+        "Required: Only valid jpg | jpeg | png"
       ),
     }),
 
     onSubmit: (values) => {
-      console.log(values, "submit");
+      // Log submitted values
+      console.log("Form Submitted", values);
+
+      // Test Submission
+      alert("Form Submitted");
     },
   });
 
@@ -58,26 +82,31 @@ export default function FormAction() {
                   label="Event Name"
                   type="text"
                   name="eventName"
-                  value={formik.values.name}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
+                  value={formik.values.eventName}
+                  onChange={(event) => {
+                    handleOnchange(event);
+                    formik.handleChange(event);
+                  }}
                   helperText={
-                    formik.touched.name && (formik.errors.name as any)
+                    formik.touched.eventName && (formik.errors.eventName as any)
                   }
-                  error={formik.touched.name && Boolean(formik.errors.name)}
+                  error={
+                    formik.touched.eventName && Boolean(formik.errors.eventName)
+                  }
                   size="small"
                 />
               </Box>
               <Box>
-                {" "}
                 <TextField
                   required
                   label="Event Date"
                   type="date"
                   name="date"
                   value={formik.values.date}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
+                  onChange={(event) => {
+                    handleOnchange(event);
+                    formik.handleChange(event);
+                  }}
                   helperText={
                     formik.touched.date && (formik.errors.date as any)
                   }
@@ -87,15 +116,16 @@ export default function FormAction() {
                 />
               </Box>
               <Box>
-                {" "}
                 <TextField
                   required
                   label="Venue"
                   type="text"
                   name="venue"
                   value={formik.values.venue}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
+                  onChange={(event) => {
+                    handleOnchange(event);
+                    formik.handleChange(event);
+                  }}
                   helperText={
                     formik.touched.venue && (formik.errors.venue as any)
                   }
@@ -107,7 +137,6 @@ export default function FormAction() {
           </Grid>
           <Grid size={{ md: 6, sm: 6, xl: 6 }}>
             <Stack spacing={4}>
-              {" "}
               <Box>
                 <TextField
                   required
@@ -117,8 +146,10 @@ export default function FormAction() {
                   type="text"
                   name="description"
                   value={formik.values.description}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
+                  onChange={(event) => {
+                    handleOnchange(event);
+                    formik.handleChange(event);
+                  }}
                   helperText={
                     formik.touched.description &&
                     (formik.errors.description as any)
@@ -132,21 +163,21 @@ export default function FormAction() {
               <Box>
                 <Stack direction="row" spacing={2}>
                   <Box>
-                    {" "}
                     <Dropdown
                       value={singleEventRecord.eventCategory}
                       options={CategoryOptions}
                       handleDropdownChange={handleOnCategory}
                       label="Category"
+                      name="eventCategory"
                     />
                   </Box>
                   <Box>
-                    {" "}
                     <Dropdown
                       value={singleEventRecord.ticketPrice}
                       options={PriceOptions}
                       handleDropdownChange={handleOnTicketPrice}
                       label="Price"
+                      name="ticketPrice"
                     />
                   </Box>
                 </Stack>
@@ -163,8 +194,10 @@ export default function FormAction() {
             label="Image Link"
             size="small"
             value={formik.values.thumbnailImage}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
+            onChange={(event) => {
+              handleOnchange(event);
+              formik.handleChange(event);
+            }}
             helperText={
               formik.touched.thumbnailImage &&
               (formik.errors.thumbnailImage as any)

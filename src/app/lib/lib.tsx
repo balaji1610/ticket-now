@@ -5,14 +5,12 @@ export const createSeatNumber: any = () => {
       isBooked: false,
       bookedById: null,
       bookedByUser: null,
-      _id: null,
     })),
     ...Array.from({ length: 10 }, (_, i) => ({
       seatNumber: `B${i + 1}`,
       isBooked: false,
       bookedById: null,
       bookedByUser: null,
-      _id: null,
     })),
   ];
 

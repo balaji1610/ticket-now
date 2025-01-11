@@ -23,7 +23,19 @@ export default function UserService() {
     }
   };
 
+  const createEvent = async () => {
+    try {
+      setAdminLoadingButton(true);
+    } catch (err) {
+      console.log(err);
+      toast.error(
+        (err as any).response.data.message ?? "Something Went Wrong !"
+      );
+    }
+  };
+
   return {
     adminLogin,
+    createEvent,
   };
 }
