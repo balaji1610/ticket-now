@@ -107,8 +107,8 @@ export default function UserService() {
       const response = await deleteEventRequest(deleteEventId);
       if (response.status === 200) {
         toast.success(response.data.message ?? "Deleted");
-        await delay(2000);
         setIsDeleteLoadingButton(false);
+        await delay(2000);
         getAllEvents();
       }
     } catch (err) {
