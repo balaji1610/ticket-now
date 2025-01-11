@@ -24,6 +24,10 @@ interface UserContextType {
   setAllEvents: Dispatch<SetStateAction<any>>;
   isLoading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
+  isEdit: boolean;
+  setIsEdit: Dispatch<SetStateAction<boolean>>;
+  updateEventId: string;
+  setUpdateEventId: Dispatch<SetStateAction<string>>;
 }
 
 const AdminContext = createContext<UserContextType | undefined>(undefined);
@@ -43,7 +47,8 @@ const AdminProvider: React.FC<ContextProps> = ({ children }) => {
   const [singleEventRecord, setSingleEventRecord] = useState<any>(eventRecord);
   const [allEvents, setAllEvents] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [updateEventId, setUpdateEventId] = useState<string>("");
   return (
     <AdminContext.Provider
       value={{
@@ -59,6 +64,10 @@ const AdminProvider: React.FC<ContextProps> = ({ children }) => {
         setAllEvents,
         isLoading,
         setIsLoading,
+        isEdit,
+        setIsEdit,
+        updateEventId,
+        setUpdateEventId,
       }}
     >
       {children}

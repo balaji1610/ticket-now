@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import { useAdminContext } from "@/app/context/adminContext";
 import eventRecord from "@/app/utils/eventRecord";
 export default function AddEvent() {
-  const { isAddEventOpen, setIsAddEventOpen, setSingleEventRecord } =
+  const { isAddEventOpen, setIsAddEventOpen, setSingleEventRecord, isEdit } =
     useAdminContext();
 
   const addEventClose = () => {
@@ -22,7 +22,7 @@ export default function AddEvent() {
         open={isAddEventOpen}
         setOpen={setIsAddEventOpen}
         handleClose={addEventClose}
-        title="Add Event"
+        title={isEdit ? "Update Event" : "Add Event"}
         component={<FormAction />}
       ></Modal>
     </>

@@ -15,13 +15,26 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 export default function AdminTable() {
   const { getAllEvents } = adminService();
-  const { allEvents, isLoading } = useAdminContext();
+  const {
+    allEvents,
+    isLoading,
+    setIsEdit,
+    setUpdateEventId,
+    setSingleEventRecord,
+    setIsAddEventOpen,
+  } = useAdminContext();
 
   useEffect(() => {
     getAllEvents();
   }, []);
 
-  console.log(allEvents);
+  const handleOnEditClick = (editId: string, editData: any) => {
+    setIsEdit(true);
+    setUpdateEventId(editId);
+    setSingleEventRecord(editData);
+    setIsAddEventOpen(true);
+  };
+
   return (
     <div>
       {isLoading ? (
@@ -39,7 +52,7 @@ export default function AdminTable() {
               heigh: "10px",
               "& th": {
                 color: "#ffffff",
-                backgroundColor: "#000000",
+                backgroundColor: "#6A80B9",
                 fontSize: "large",
                 fontWeight: "bold",
               },
@@ -52,33 +65,40 @@ export default function AdminTable() {
               <TableRow>
                 <TableCell>Event Name </TableCell>
                 <TableCell>Date</TableCell>
-                <TableCell>venue</TableCell>
+                <TableCell>Venue</TableCell>
                 <TableCell>Category</TableCell>
                 <TableCell>Edit</TableCell>
                 <TableCell>Delete</TableCell>
               </TableRow>
             </TableHead>{" "}
             <TableBody>
-              {allEvents.map((el: any) => (
-                <TableRow>
-                  <TableCell>{el.eventName}</TableCell>
-                  <TableCell>{el.date}</TableCell>
-                  <TableCell>{el.venue}</TableCell>
-                  <TableCell>{el.eventCategory}</TableCell>
-                  <TableCell>
-                    {" "}
-                    <Button variant="contained" color="success">
-                      Edit
-                    </Button>
-                  </TableCell>
-                  <TableCell>
-                    {" "}
-                    <Button variant="contained" color="error">
-                      Delete
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {allEvents.map((event: any) => {
+                const { _id, eventName, date, venue, eventCategory } = event;
+                return (
+                  <TableRow>
+                    <TableCell>{eventName}</TableCell>
+                    <TableCell>{date}</TableCell>
+                    <TableCell>{venue}</TableCell>
+                    <TableCell>{eventCategory}</TableCell>
+                    <TableCell>
+                      {" "}
+                      <Button
+                        variant="contained"
+                        color="success"
+                        onClick={() => handleOnEditClick(_id, event)}
+                      >
+                        Edit
+                      </Button>
+                    </TableCell>
+                    <TableCell>
+                      {" "}
+                      <Button variant="contained" color="error">
+                        Delete
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </TableContainer>

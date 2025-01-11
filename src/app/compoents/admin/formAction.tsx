@@ -13,10 +13,14 @@ import { CategoryOptions, PriceOptions } from "@/app/lib/lib";
 import adminService from "@/app/service/adminService";
 
 export default function FormAction() {
-  const { singleEventRecord, setSingleEventRecord, adminLoadingButton } =
-    useAdminContext();
+  const {
+    singleEventRecord,
+    setSingleEventRecord,
+    adminLoadingButton,
+    isEdit,
+  } = useAdminContext();
 
-  const { createEvent } = adminService();
+  const { createEvent, updateEvent } = adminService();
 
   const handleOnchange = (event: any) => {
     const { name, value } = event.target;
@@ -42,7 +46,9 @@ export default function FormAction() {
     }),
 
     onSubmit: () => {
-      createEvent();
+      {
+        isEdit ? updateEvent() : createEvent();
+      }
     },
   });
 
@@ -224,7 +230,7 @@ export default function FormAction() {
             variant="contained"
             loading={adminLoadingButton}
           >
-            Add
+            {isEdit ? "Update" : "Add"}
           </LoadingButton>
         </Box>
       </Box>

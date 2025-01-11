@@ -5,6 +5,7 @@ import {
   adminLoginRequest,
   createEventRequest,
   getAllEventsRequest,
+  updateEventRequest,
 } from "../../../services/services";
 import { useAdminContext } from "@/app/context/adminContext";
 import eventRecord from "@/app/utils/eventRecord";
@@ -18,9 +19,14 @@ export default function UserService() {
     setIsAddEventOpen,
     setAllEvents,
     setIsLoading,
+    setIsEdit,
+    setUpdateEventId,
+    updateEventId,
   } = useAdminContext();
+
   const delay = (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));
+
   const adminLogin = async () => {
     try {
       setAdminLoadingButton(true);
@@ -58,7 +64,37 @@ export default function UserService() {
       setIsAddEventOpen(false);
     }
   };
+  //updateEvent
+  const updateEvent = async () => {
+    try {
+      setAdminLoadingButton(true);
 
+      const response = await updateEventRequest(
+        updateEventId,
+        singleEventRecord
+      );
+      if (response.status === 200) {
+        toast.success(response.data.message ?? "Updated");
+        setAdminLoadingButton(false);
+        await delay(2000);
+        getAllEvents();
+        setIsAddEventOpen(false);
+        setSingleEventRecord(eventRecord);
+        setIsEdit(false);
+        setUpdateEventId("");
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error(
+        (err as any).response.data.message ?? "Something Went Wrong !"
+      );
+      setAdminLoadingButton(false);
+      setSingleEventRecord(eventRecord);
+      setIsAddEventOpen(false);
+      setIsEdit(false);
+      setUpdateEventId("");
+    }
+  };
   const getAllEvents = async () => {
     try {
       setIsLoading(true);
@@ -71,9 +107,11 @@ export default function UserService() {
       console.log(err);
     }
   };
+
   return {
     adminLogin,
     createEvent,
     getAllEvents,
+    updateEvent,
   };
 }
