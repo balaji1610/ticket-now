@@ -16,12 +16,12 @@ export const createSeatNumber: any = () => {
       bookedById: null,
       bookedByUser: null,
     })),
-    ...Array.from({ length: 10 }, (_, i) => ({
-      seatNumber: `B${i + 1}`,
-      isBooked: false,
-      bookedById: null,
-      bookedByUser: null,
-    })),
+    // ...Array.from({ length: 10 }, (_, i) => ({
+    //   seatNumber: `B${i + 1}`,
+    //   isBooked: false,
+    //   bookedById: null,
+    //   bookedByUser: null,
+    // })),
   ];
 
   return initialSeats;
