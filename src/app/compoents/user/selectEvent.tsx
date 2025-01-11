@@ -6,13 +6,18 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 export default function SelectEvent() {
   const { allEvents } = useAdminContext();
   const { getAllEvents } = adminService();
+  const router = useRouter();
   useEffect(() => {
     getAllEvents();
   }, []);
 
+  const handleOnEventClick = (title: string) => {
+    router.push(`./events/${title}`);
+  };
   return (
     <div>
       {" "}
@@ -30,7 +35,7 @@ export default function SelectEvent() {
               }}
               key={index}
               title={el.eventName}
-              
+              onClick={()=>handleOnEventClick(el.eventName)}
             >
               <Stack spacing={1}>
                 <Box>
