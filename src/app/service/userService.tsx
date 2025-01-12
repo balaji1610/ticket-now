@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import {
   userLoginRequest,
   createAccountRequest,
+  adminBookingTicketRequest,
 } from "../../../services/services";
 import { useUserContext } from "@/app/context/userContext";
 
@@ -14,6 +15,8 @@ export default function UserService() {
     newUserCrendential,
     setUserLoadingButton,
     setCurrentUser,
+    selectedEvent,
+    setIsBookTicketLoadingButton,
   } = useUserContext();
 
   const delay = (ms: number) =>
@@ -53,9 +56,25 @@ export default function UserService() {
       // eslint-disable-next-line
     }
   };
-
+  //adminBookingTicket
+  const adminBookingTicket = async () => {
+    try {
+      setIsBookTicketLoadingButton(true);
+      const response = await adminBookingTicketRequest(selectedEvent);
+      if (response.status === 200) {
+        toast.success(response.data.message ?? "Booked Tickets");
+        setIsBookTicketLoadingButton(false);
+        
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error((err as any).response.data.message ?? "Login Failed");
+      setIsBookTicketLoadingButton(false);
+    }
+  };
   return {
     userLogin,
     createAccount,
+    adminBookingTicket,
   };
 }

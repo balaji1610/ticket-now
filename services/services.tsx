@@ -59,3 +59,12 @@ export const deleteEventRequest = async (deleteEventId: string) => {
   );
   return response;
 };
+
+//adminBookingTIckets
+export const adminBookingTicketRequest = async (eventInfo: any) => {
+  const response = await axios.post(
+    `${process.env.NEXT_PUBLIC_ADMIN_BOOKING_TICKETS}`,
+    eventInfo
+  );
+  return response;
+};

@@ -20,6 +20,8 @@ interface UserContextType {
   setSelectedEvent: Dispatch<SetStateAction<any>>;
   currentUser: any;
   setCurrentUser: Dispatch<SetStateAction<any>>;
+  isBookTicketLoadingButton: boolean;
+  setIsBookTicketLoadingButton: Dispatch<SetStateAction<boolean>>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -42,6 +44,8 @@ const UserProvider: React.FC<ContextProps> = ({ children }) => {
   const [userLoadingButton, setUserLoadingButton] = useState<boolean>(false);
   const [selectedEvent, setSelectedEvent] = useState<any>({});
   const [currentUser, setCurrentUser] = useState<any>({});
+  const [isBookTicketLoadingButton, setIsBookTicketLoadingButton] =
+    useState<boolean>(false);
 
   return (
     <UserContext.Provider
@@ -56,6 +60,8 @@ const UserProvider: React.FC<ContextProps> = ({ children }) => {
         setSelectedEvent,
         currentUser,
         setCurrentUser,
+        isBookTicketLoadingButton,
+        setIsBookTicketLoadingButton,
       }}
     >
       {children}

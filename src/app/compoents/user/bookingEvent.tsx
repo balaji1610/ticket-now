@@ -3,7 +3,10 @@ import { useUserContext } from "@/app/context/userContext";
 import { Box, Stack } from "@mui/material";
 
 import React, { useState, useEffect } from "react";
-
+import userService from "@/app/service/userService";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export function TicketStatus(props: { backgroundColor: string }) {
   const { backgroundColor } = props;
   return (
@@ -20,8 +23,13 @@ export function TicketStatus(props: { backgroundColor: string }) {
 }
 
 export default function BookingEvent() {
-  const { selectedEvent, setSelectedEvent, currentUser } = useUserContext();
-
+  const {
+    selectedEvent,
+    setSelectedEvent,
+    currentUser,
+    isBookTicketLoadingButton,
+  } = useUserContext();
+  const { adminBookingTicket } = userService();
   const { eventName, seats } = selectedEvent;
 
   useEffect(() => {
@@ -79,7 +87,9 @@ export default function BookingEvent() {
     }
   };
 
-  console.log(selectedEvent);
+  const handleOnBookingTicket = () => {
+    adminBookingTicket();
+  };
   return (
     <div>
       <h1>{eventName}</h1>
@@ -136,6 +146,14 @@ export default function BookingEvent() {
           );
         })}
       </Box>
+      <LoadingButton
+        variant="contained"
+        onClick={handleOnBookingTicket}
+        loading={isBookTicketLoadingButton}
+      >
+        Book Tickets
+      </LoadingButton>
+      <ToastContainer position="top-right" autoClose={2000} />
     </div>
   );
 }

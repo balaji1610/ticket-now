@@ -119,6 +119,7 @@ export default function UserService() {
       setIsDeleteLoadingButton(false);
     }
   };
+
   const getAllEvents = async () => {
     try {
       setIsLoading(true);
