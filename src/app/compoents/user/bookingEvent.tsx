@@ -2,17 +2,12 @@
 import { useUserContext } from "@/app/context/userContext";
 import { Box, Stack } from "@mui/material";
 
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
 
 export default function BookingEvent() {
   const { selectedEvent } = useUserContext();
 
-  const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
-
-  // const { eventName, seats } = selectedEvent;
-
-  const currentSeat = {
+  const [currentEventDetail, setCurrentEventDetail] = useState<any>({
     _id: { $oid: "6782aeb1a1d0c46582e4a429" },
     eventName: "AR",
     description:
@@ -33,103 +28,115 @@ export default function BookingEvent() {
       },
       {
         seatNumber: "A2",
-        isBooked: false,
-        bookedById: null,
-        bookedByUser: null,
+        isBooked: true,
+        bookedById: 1,
+        bookedByUser: "Anu",
         _id: { $oid: "6782aeb1a1d0c46582e4a42b" },
       },
       {
         seatNumber: "A3",
-        isBooked: false,
-        bookedById: null,
-        bookedByUser: null,
+        isBooked: true,
+        bookedById: 2,
+        bookedByUser: "balaji",
         _id: { $oid: "6782aeb1a1d0c46582e4a42c" },
-      },
-      {
-        seatNumber: "A4",
-        isBooked: false,
-        bookedById: null,
-        bookedByUser: null,
-        _id: { $oid: "6782aeb1a1d0c46582e4a42d" },
-      },
-      {
-        seatNumber: "A5",
-        isBooked: false,
-        bookedById: null,
-        bookedByUser: null,
-        _id: { $oid: "6782aeb1a1d0c46582e4a42e" },
-      },
-      {
-        seatNumber: "A6",
-        isBooked: false,
-        bookedById: null,
-        bookedByUser: null,
-        _id: { $oid: "6782aeb1a1d0c46582e4a42f" },
-      },
-      {
-        seatNumber: "A7",
-        isBooked: false,
-        bookedById: null,
-        bookedByUser: null,
-        _id: { $oid: "6782aeb1a1d0c46582e4a430" },
-      },
-      {
-        seatNumber: "A8",
-        isBooked: false,
-        bookedById: null,
-        bookedByUser: null,
-        _id: { $oid: "6782aeb1a1d0c46582e4a431" },
-      },
-      {
-        seatNumber: "A9",
-        isBooked: false,
-        bookedById: null,
-        bookedByUser: null,
-        _id: { $oid: "6782aeb1a1d0c46582e4a432" },
-      },
-      {
-        seatNumber: "A10",
-        isBooked: false,
-        bookedById: null,
-        bookedByUser: null,
-        _id: { $oid: "6782aeb1a1d0c46582e4a433" },
       },
     ],
     createdEvent: "",
     TicketStatus: "avilable",
-  };
-  const { eventName, seats } = currentSeat;
+  });
+  const { eventName, seats } = currentEventDetail;
 
-  const toggleSeatSelection = (seat: string) => {
-    setSelectedSeats((prevSelectedSeats) =>
-      prevSelectedSeats.includes(seat)
-        ? prevSelectedSeats.filter((s) => s !== seat)
-        : [...prevSelectedSeats, seat]
-    );
+  useEffect(() => {
+    currentEventDetail;
+  }, [currentEventDetail, setCurrentEventDetail]);
+
+  const currentUser = {
+    userId: 1,
+    bookedByUser: "balaji",
   };
 
+  const toggleSeatSelection = (
+    currentNumber: string,
+    booked: boolean,
+    bookuserId: number
+  ) => {
+    if (booked) {
+      if (bookuserId == currentUser.userId) {
+        //unselected
+        setCurrentEventDetail((prev: any) => {
+          return {
+            ...prev,
+            seats: prev.seats.map((el: any) => {
+              const { seatNumber } = el;
+              if (seatNumber === currentNumber) {
+                return {
+                  ...el,
+                  isBooked: false,
+                  bookedById: null,
+                  bookedByUser: null,
+                };
+              }
+              return el;
+            }),
+          };
+        });
+      } else {
+        alert("It is SoldOut");
+      }
+    } else {
+      //selected
+      alert("It is selected");
+      setCurrentEventDetail((prev: any) => {
+        return {
+          ...prev,
+          seats: prev.seats.map((el: any) => {
+            const { seatNumber } = el;
+            if (seatNumber === currentNumber) {
+              return {
+                ...el,
+                isBooked: true,
+                bookedById: currentUser.userId,
+                bookedByUser: currentUser.bookedByUser,
+              };
+            }
+            return el;
+          }),
+        };
+      });
+    }
+  };
+
+  console.log(currentEventDetail);
   return (
     <div>
       <h1>{eventName}</h1>
-      {JSON.stringify(selectedSeats)}
+
       <Box sx={{ padding: "20vh" }}>
         {seats.map((el: any, index: number) => {
-          const { seatNumber } = el;
+          const { seatNumber, isBooked, bookedById, bookedByUser } = el;
           return (
             <Box
               key={seatNumber}
               component="span"
               sx={{
                 border: "1px solid black",
-                backgroundColor: selectedSeats.includes(seatNumber)
-                  ? "blue"
-                  : "white",
-                color: selectedSeats.includes(seatNumber) ? "white" : "black",
+                backgroundColor: isBooked
+                  ? bookedById == currentUser.userId
+                    ? "blue" // Selected
+                    : "red" // SoldOUT
+                  : "white", // Avilable
+                cursor: isBooked
+                  ? bookedById == currentUser.userId
+                    ? "pointer" // Selected
+                    : "not-allowed" // SoldOUT
+                  : "pointer", // Avilable
+
                 padding: "5px",
                 margin: "5px",
-                cursor: "pointer",
               }}
-              onClick={() => toggleSeatSelection(seatNumber)}
+              onClick={() =>
+                toggleSeatSelection(seatNumber, isBooked, bookedById)
+              }
             >
               {seatNumber}
             </Box>
