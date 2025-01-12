@@ -18,6 +18,8 @@ interface UserContextType {
   setUserLoadingButton: Dispatch<SetStateAction<boolean>>;
   selectedEvent: any;
   setSelectedEvent: Dispatch<SetStateAction<any>>;
+  currentUser: any;
+  setCurrentUser: Dispatch<SetStateAction<any>>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -39,6 +41,7 @@ const UserProvider: React.FC<ContextProps> = ({ children }) => {
   );
   const [userLoadingButton, setUserLoadingButton] = useState<boolean>(false);
   const [selectedEvent, setSelectedEvent] = useState<any>({});
+  const [currentUser, setCurrentUser] = useState<any>({});
 
   return (
     <UserContext.Provider
@@ -51,6 +54,8 @@ const UserProvider: React.FC<ContextProps> = ({ children }) => {
         setUserLoadingButton,
         selectedEvent,
         setSelectedEvent,
+        currentUser,
+        setCurrentUser,
       }}
     >
       {children}

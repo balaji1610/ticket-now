@@ -7,7 +7,7 @@ type EventApplicationProps = {
 export default function EventApplication({ children }: EventApplicationProps) {
   return (
     <div>
-      <Grid container direction="column" spacing={12}>
+      <Grid container direction="column" spacing={6}>
         <Grid size={{ md: 12, sm: 12, xl: 12 }}>
           <Logout />
         </Grid>

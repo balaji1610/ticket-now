@@ -20,55 +20,13 @@ export function TicketStatus(props: { backgroundColor: string }) {
 }
 
 export default function BookingEvent() {
-  const { selectedEvent } = useUserContext();
+  const { selectedEvent, setSelectedEvent, currentUser } = useUserContext();
 
-  const [currentEventDetail, setCurrentEventDetail] = useState<any>({
-    _id: { $oid: "6782aeb1a1d0c46582e4a429" },
-    eventName: "AR",
-    description:
-      "A grand musical concert featuring super hit tamil songs of Shri. AR RAHMAN celebrating his 33 successful years in INDIAN CINEMA. Many young and energetic singers will be performing live along with world class musicians of Mouna Raagam Murali`s orchestra",
-    date: "2025-01-12",
-    venue: "Chennai",
-    thumbnailImage:
-      "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-a-r-rahman-33-grand-musical-concert-0-2025-1-3-t-5-8-58.jpg",
-    eventCategory: "music",
-    ticketPrice: "100",
-    seats: [
-      {
-        seatNumber: "A1",
-        isBooked: false,
-        bookedById: null,
-        bookedByUser: null,
-        _id: { $oid: "6782aeb1a1d0c46582e4a42a" },
-      },
-      {
-        seatNumber: "A2",
-        isBooked: true,
-        bookedById: 1,
-        bookedByUser: "Anu",
-        _id: { $oid: "6782aeb1a1d0c46582e4a42b" },
-      },
-      {
-        seatNumber: "A3",
-        isBooked: true,
-        bookedById: 2,
-        bookedByUser: "balaji",
-        _id: { $oid: "6782aeb1a1d0c46582e4a42c" },
-      },
-    ],
-    createdEvent: "",
-    TicketStatus: "avilable",
-  });
-  const { eventName, seats } = currentEventDetail;
+  const { eventName, seats } = selectedEvent;
 
   useEffect(() => {
-    currentEventDetail;
-  }, [currentEventDetail, setCurrentEventDetail]);
-
-  const currentUser = {
-    userId: 1,
-    bookedByUser: "balaji",
-  };
+    selectedEvent;
+  }, [selectedEvent, setSelectedEvent]);
 
   const toggleSeatSelection = (
     currentNumber: string,
@@ -76,9 +34,9 @@ export default function BookingEvent() {
     bookuserId: number
   ) => {
     if (booked) {
-      if (bookuserId == currentUser.userId) {
+      if (bookuserId == currentUser._id) {
         //unselected
-        setCurrentEventDetail((prev: any) => {
+        setSelectedEvent((prev: any) => {
           return {
             ...prev,
             seats: prev.seats.map((el: any) => {
@@ -101,7 +59,7 @@ export default function BookingEvent() {
     } else {
       //selected
       alert("It is selected");
-      setCurrentEventDetail((prev: any) => {
+      setSelectedEvent((prev: any) => {
         return {
           ...prev,
           seats: prev.seats.map((el: any) => {
@@ -110,8 +68,8 @@ export default function BookingEvent() {
               return {
                 ...el,
                 isBooked: true,
-                bookedById: currentUser.userId,
-                bookedByUser: currentUser.bookedByUser,
+                bookedById: currentUser._id,
+                bookedByUser: currentUser.username,
               };
             }
             return el;
@@ -121,7 +79,7 @@ export default function BookingEvent() {
     }
   };
 
-  console.log(currentEventDetail);
+  console.log(selectedEvent);
   return (
     <div>
       <h1>{eventName}</h1>
@@ -156,12 +114,12 @@ export default function BookingEvent() {
               sx={{
                 border: "1px solid black",
                 backgroundColor: isBooked
-                  ? bookedById == currentUser.userId
+                  ? bookedById == currentUser._id
                     ? "blue" // Selected
                     : "gray" // SoldOUT
                   : "white", // Avilable
                 cursor: isBooked
-                  ? bookedById == currentUser.userId
+                  ? bookedById == currentUser._id
                     ? "pointer" // Selected
                     : "not-allowed" // SoldOUT
                   : "pointer", // Avilable

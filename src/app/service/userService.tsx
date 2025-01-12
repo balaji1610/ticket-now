@@ -9,8 +9,15 @@ import { useUserContext } from "@/app/context/userContext";
 
 export default function UserService() {
   const router = useRouter();
-  const { userCrendential, newUserCrendential, setUserLoadingButton } =
-    useUserContext();
+  const {
+    userCrendential,
+    newUserCrendential,
+    setUserLoadingButton,
+    setCurrentUser,
+  } = useUserContext();
+
+  const delay = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
   //login
   const userLogin = async () => {
     try {
@@ -18,7 +25,10 @@ export default function UserService() {
       const response = await userLoginRequest(userCrendential);
       if (response.status === 200) {
         toast.success(response.data.message ?? "Login Success");
+
+        setCurrentUser(response.data.result);
         setUserLoadingButton(false);
+        await delay(2000);
         router.push("./events");
       }
     } catch (err) {
