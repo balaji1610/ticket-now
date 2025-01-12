@@ -1,6 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { useAdminContext } from "@/app/context/adminContext";
+import { useUserContext } from "@/app/context/userContext";
 import adminService from "@/app/service/adminService";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -9,20 +10,23 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 export default function SelectEvent() {
   const { allEvents } = useAdminContext();
+  const { setSelectedEvent } = useUserContext();
   const { getAllEvents } = adminService();
   const router = useRouter();
   useEffect(() => {
     getAllEvents();
   }, []);
 
-  const handleOnEventClick = (title: string) => {
+  const handleOnEventClick = (title: string, event: any) => {
     router.push(`./events/${title}`);
+    setSelectedEvent(event);
   };
   return (
     <div>
       {" "}
       <Box sx={{ height: "80vh", marginLeft: "2rem" }}>
-        {allEvents.map((el: any, index: number) => {
+        {allEvents.map((event: any, index: number) => {
+          const { eventName, thumbnailImage } = event;
           return (
             <Box
               sx={{
@@ -34,13 +38,13 @@ export default function SelectEvent() {
                 borderRadius: "10px",
               }}
               key={index}
-              title={el.eventName}
-              onClick={()=>handleOnEventClick(el.eventName)}
+              title={eventName}
+              onClick={() => handleOnEventClick(eventName, event)}
             >
               <Stack spacing={1}>
                 <Box>
                   <Image
-                    src={el.thumbnailImage}
+                    src={thumbnailImage}
                     alt="Blog-Template"
                     width={260}
                     height={150}
@@ -59,7 +63,7 @@ export default function SelectEvent() {
                     color="textSecondary"
                     sx={{ mt: "5px", fontWeight: "bold" }}
                   >
-                    {el.eventName}
+                    {eventName}
                   </Typography>
                 </Box>
               </Stack>

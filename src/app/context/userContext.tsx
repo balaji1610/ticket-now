@@ -16,6 +16,8 @@ interface UserContextType {
   setNewUserCrendential: Dispatch<SetStateAction<crendentialType>>;
   userLoadingButton: boolean;
   setUserLoadingButton: Dispatch<SetStateAction<boolean>>;
+  selectedEvent: any;
+  setSelectedEvent: Dispatch<SetStateAction<any>>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -36,6 +38,7 @@ const UserProvider: React.FC<ContextProps> = ({ children }) => {
     }
   );
   const [userLoadingButton, setUserLoadingButton] = useState<boolean>(false);
+  const [selectedEvent, setSelectedEvent] = useState<any>({});
 
   return (
     <UserContext.Provider
@@ -46,6 +49,8 @@ const UserProvider: React.FC<ContextProps> = ({ children }) => {
         setNewUserCrendential,
         userLoadingButton,
         setUserLoadingButton,
+        selectedEvent,
+        setSelectedEvent,
       }}
     >
       {children}
