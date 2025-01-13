@@ -20,8 +20,8 @@ export default function Logout() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const avatarName = currentUser.username.split("@")[0];
-  const avater = currentUser.username.at(0)?.toUpperCase();
+  const avatarName = currentUser?.username?.split("@")[0];
+  const avater = currentUser?.username?.at(0)?.toUpperCase();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const open = Boolean(anchorEl);
@@ -67,7 +67,7 @@ export default function Logout() {
 
               <Box sx={{ marginTop: "8px !important" }}>
                 {" "}
-                {avatarName.toUpperCase()}
+                {avatarName?.toUpperCase()}
               </Box>
               <Box sx={{ marginLeft: "10px" }}>
                 <Button
