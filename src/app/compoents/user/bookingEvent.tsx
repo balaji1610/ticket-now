@@ -1,7 +1,7 @@
 "use client";
 import { useUserContext } from "@/app/context/userContext";
 import { Box, Stack } from "@mui/material";
-
+import Divider from "@mui/material/Divider";
 import React, { useState, useEffect } from "react";
 import userService from "@/app/service/userService";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -116,14 +116,14 @@ export default function BookingEvent() {
   };
 
   return (
-    <div>
+    <div style={{ paddingBottom: "30px" }}>
       <Box sx={{ margin: "10px 0 30px 0" }}>
         <AboutEvent />
       </Box>
 
-      <Grid container>
+      <Grid container sx={{ padding: "10px" }}>
         <Grid size={{ md: 4, sm: 4, xl: 4 }}>
-          <Box sx={{ marginLeft: "10px" }}>
+          <Box>
             <Typography
               variant="h6"
               sx={{
@@ -158,52 +158,94 @@ export default function BookingEvent() {
           </LoadingButton>
         </Grid>
       </Grid>
-
-      <Box sx={{ padding: "10vh" }}>
-        {/* Render seats in two chunks dynamically */}
-        {[0, 10].map((startIndex) => (
-          <Box key={startIndex} sx={{ marginBottom: "20px" }}>
-            {seats?.slice(startIndex, startIndex + 10).map((el: any) => {
-              const { seatNumber, isBooked, bookedById } = el;
-              return (
-                <Box
-                  key={seatNumber}
-                  component="span"
-                  sx={{
-                    border: "1px solid black",
-                    backgroundColor: isBooked
-                      ? bookedById === currentUser._id
-                        ? "#1976d2" // Selected
-                        : "gray" // SoldOUT
-                      : "#ffffff", // Available
-                    color: isBooked ? "#ffffff" : "#000000",
-                    cursor: isBooked
-                      ? bookedById === currentUser._id
-                        ? "pointer"
-                        : "not-allowed"
-                      : "pointer",
-                    padding: "5px",
-                    margin: "5px",
-                  }}
-                  onClick={() =>
-                    toggleSeatSelection(seatNumber, isBooked, bookedById)
-                  }
-                >
-                  {seatNumber}
-                </Box>
-              );
-            })}
+      <Grid container sx={{ margin: "20px 0 20px 0" }}>
+        <Grid size={{ md: 12, sm: 12, xl: 12 }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+            }}
+          >
+            <Stack direction="row" spacing={2}>
+              <Box
+                sx={{
+                  width: "25px",
+                  height: "80px",
+                  border: "1px solid gray",
+                  color: "#ffffff",
+                  textAlign: "center",
+                  backgroundColor: "gray",
+                }}
+              >
+                <Stack spacing={2}>
+                  <Box>
+                    <h4>A</h4>
+                  </Box>
+                  <Box>
+                    {" "}
+                    <h4>B</h4>
+                  </Box>
+                </Stack>
+              </Box>
+              <Box>
+                {[0, 10].map((startIndex) => (
+                  <Box key={startIndex} sx={{ margin: "10px 0 20px 0" }}>
+                    {seats
+                      ?.slice(startIndex, startIndex + 10)
+                      .map((el: any) => {
+                        const { seatNumber, isBooked, bookedById } = el;
+                        return (
+                          <Box
+                            key={seatNumber}
+                            component="span"
+                            sx={{
+                              border: "1px solid black",
+                              backgroundColor: isBooked
+                                ? bookedById === currentUser._id
+                                  ? "#1976d2" // Selected
+                                  : "gray" // SoldOUT
+                                : "#ffffff", // Available
+                              color: isBooked ? "#ffffff" : "#000000",
+                              cursor: isBooked
+                                ? bookedById === currentUser._id
+                                  ? "pointer"
+                                  : "not-allowed"
+                                : "pointer",
+                              padding: "5px",
+                              margin: "5px",
+                            }}
+                            onClick={() =>
+                              toggleSeatSelection(
+                                seatNumber,
+                                isBooked,
+                                bookedById
+                              )
+                            }
+                          >
+                            {seatNumber}
+                          </Box>
+                        );
+                      })}
+                  </Box>
+                ))}
+              </Box>
+            </Stack>
           </Box>
-        ))}
-      </Box>
+        </Grid>
+      </Grid>
+      <Box></Box>
+      <Divider>
+        {" "}
+        <LoadingButton
+          variant="contained"
+          onClick={handleOnBookingTicket}
+          loading={isBookTicketLoadingButton}
+        >
+          Book Tickets
+        </LoadingButton>
+      </Divider>
 
-      <LoadingButton
-        variant="contained"
-        onClick={handleOnBookingTicket}
-        loading={isBookTicketLoadingButton}
-      >
-        Book Tickets
-      </LoadingButton>
       <ToastContainer position="top-right" autoClose={2000} />
     </div>
   );
