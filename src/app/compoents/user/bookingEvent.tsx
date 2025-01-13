@@ -5,9 +5,12 @@ import { Box, Stack } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import userService from "@/app/service/userService";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-export function TicketStatus(props: { backgroundColor: string }) {
+import Grid from "@mui/material/Grid2";
+import Typography from "@mui/material/Typography";
+
+export function TicketStatusui(props: { backgroundColor: string }) {
   const { backgroundColor } = props;
   return (
     <Box
@@ -29,11 +32,33 @@ export default function BookingEvent() {
     currentUser,
     isBookTicketLoadingButton,
   } = useUserContext();
+
   const { adminBookingTicket } = userService();
+
   const { eventName, seats } = selectedEvent;
+
+  const [numberOfSelectedTickets, setNumberOfSelectTickets] = useState<
+    null | number
+  >(null);
+
+  const checkTicketStatus = () => {
+    const checkTicketSoldOutStatus = selectedEvent.seats.every(
+      (el: any) => el.isBooked === true
+    );
+
+    setSelectedEvent((prev: any) => ({
+      ...prev,
+      TicketStatus: checkTicketSoldOutStatus ? "soldout" : "available",
+    }));
+  };
 
   useEffect(() => {
     selectedEvent;
+    const selectNumberTicket = seats?.filter((el: any) => {
+      return el.bookedById == currentUser._id;
+    });
+    setNumberOfSelectTickets(selectNumberTicket.length);
+    checkTicketStatus();
   }, [selectedEvent, setSelectedEvent]);
 
   const toggleSeatSelection = (
@@ -62,11 +87,10 @@ export default function BookingEvent() {
           };
         });
       } else {
-        alert("It is SoldOut");
+        toast.error("This ticket is sold out");
       }
     } else {
       //selected
-      alert("It is selected");
       setSelectedEvent((prev: any) => {
         return {
           ...prev,
@@ -90,62 +114,87 @@ export default function BookingEvent() {
   const handleOnBookingTicket = () => {
     adminBookingTicket();
   };
+
   return (
     <div>
       <h1>{eventName}</h1>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "flex-end",
-          marginRight: "10px",
-        }}
-      >
-        <Stack>
-          <Box>
-            <Stack direction="row" spacing={2}>
-              <TicketStatus backgroundColor="#ffffff" />
-              <Box>Avilable</Box>
-              <TicketStatus backgroundColor="blue" />
-              <Box>Selected</Box>
-              <TicketStatus backgroundColor="gray" />
-              <Box>Soldout</Box>
-            </Stack>
-          </Box>
-        </Stack>
-      </Box>
-      <Box sx={{ padding: "20vh" }}>
-        {seats.map((el: any, index: number) => {
-          const { seatNumber, isBooked, bookedById, bookedByUser } = el;
-          return (
-            <Box
-              key={seatNumber}
-              component="span"
+      
+      <Grid container>
+        <Grid size={{ md: 4, sm: 4, xl: 4 }}>
+          <Box sx={{ marginLeft: "10px" }}>
+            <Typography
+              variant="h6"
               sx={{
-                border: "1px solid black",
-                backgroundColor: isBooked
-                  ? bookedById == currentUser._id
-                    ? "blue" // Selected
-                    : "gray" // SoldOUT
-                  : "white", // Avilable
-                cursor: isBooked
-                  ? bookedById == currentUser._id
-                    ? "pointer" // Selected
-                    : "not-allowed" // SoldOUT
-                  : "pointer", // Avilable
-
-                padding: "5px",
-                margin: "5px",
+                color: numberOfSelectedTickets ? "#1976d2" : "gray",
               }}
-              onClick={() =>
-                toggleSeatSelection(seatNumber, isBooked, bookedById)
-              }
+              gutterBottom
             >
-              {seatNumber}
+              {numberOfSelectedTickets
+                ? `You have selected ${numberOfSelectedTickets} tickets`
+                : "No tickets selected."}
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid size={{ md: 4, sm: 4, xl: 4 }}>
+          {" "}
+          <Stack>
+            <Box>
+              <Stack direction="row" spacing={2}>
+                <TicketStatusui backgroundColor="#ffffff" />
+                <Box>Avilable</Box>
+                <TicketStatusui backgroundColor="#1976d2" />
+                <Box>Selected</Box>
+                <TicketStatusui backgroundColor="gray" />
+                <Box>Soldout</Box>
+              </Stack>
             </Box>
-          );
-        })}
+          </Stack>
+        </Grid>
+        <Grid size={{ md: 4, sm: 4, xl: 4 }}>
+          <LoadingButton variant="contained" color="error">
+            Cancel Tickets
+          </LoadingButton>
+        </Grid>
+      </Grid>
+
+      <Box sx={{ padding: "10vh" }}>
+        {/* Render seats in two chunks dynamically */}
+        {[0, 10].map((startIndex) => (
+          <Box key={startIndex} sx={{ marginBottom: "20px" }}>
+            {seats.slice(startIndex, startIndex + 10).map((el: any) => {
+              const { seatNumber, isBooked, bookedById } = el;
+              return (
+                <Box
+                  key={seatNumber}
+                  component="span"
+                  sx={{
+                    border: "1px solid black",
+                    backgroundColor: isBooked
+                      ? bookedById === currentUser._id
+                        ? "#1976d2" // Selected
+                        : "gray" // SoldOUT
+                      : "#ffffff", // Available
+                    color: isBooked ? "#ffffff" : "#000000",
+                    cursor: isBooked
+                      ? bookedById === currentUser._id
+                        ? "pointer"
+                        : "not-allowed"
+                      : "pointer",
+                    padding: "5px",
+                    margin: "5px",
+                  }}
+                  onClick={() =>
+                    toggleSeatSelection(seatNumber, isBooked, bookedById)
+                  }
+                >
+                  {seatNumber}
+                </Box>
+              );
+            })}
+          </Box>
+        ))}
       </Box>
+
       <LoadingButton
         variant="contained"
         onClick={handleOnBookingTicket}

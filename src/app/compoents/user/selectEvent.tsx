@@ -26,7 +26,7 @@ export default function SelectEvent() {
       {" "}
       <Box sx={{ height: "80vh", marginLeft: "2rem" }}>
         {allEvents.map((event: any, index: number) => {
-          const { eventName, thumbnailImage } = event;
+          const { eventName, thumbnailImage, TicketStatus } = event;
           return (
             <Box
               sx={{
@@ -64,6 +64,11 @@ export default function SelectEvent() {
                     sx={{ mt: "5px", fontWeight: "bold" }}
                   >
                     {eventName}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="subtitle1" color="textSecondary">
+                    {TicketStatus}
                   </Typography>
                 </Box>
               </Stack>

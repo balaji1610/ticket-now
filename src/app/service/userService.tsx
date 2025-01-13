@@ -5,6 +5,7 @@ import {
   userLoginRequest,
   createAccountRequest,
   adminBookingTicketRequest,
+  updateEventRequest,
 } from "../../../services/services";
 import { useUserContext } from "@/app/context/userContext";
 
@@ -16,6 +17,7 @@ export default function UserService() {
     setUserLoadingButton,
     setCurrentUser,
     selectedEvent,
+    setSelectedEvent,
     setIsBookTicketLoadingButton,
   } = useUserContext();
 
@@ -60,11 +62,11 @@ export default function UserService() {
   const adminBookingTicket = async () => {
     try {
       setIsBookTicketLoadingButton(true);
+
       const response = await adminBookingTicketRequest(selectedEvent);
       if (response.status === 200) {
         toast.success(response.data.message ?? "Booked Tickets");
         setIsBookTicketLoadingButton(false);
-        
       }
     } catch (err) {
       console.log(err);
