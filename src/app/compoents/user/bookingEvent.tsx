@@ -153,9 +153,9 @@ export default function BookingEvent() {
           </Stack>
         </Grid>
         <Grid size={{ md: 4, sm: 4, xl: 4 }}>
-          <LoadingButton variant="contained" color="error">
+          {/* <LoadingButton variant="contained" color="error">
             Cancel Tickets
-          </LoadingButton>
+          </LoadingButton> */}
         </Grid>
       </Grid>
       <Grid container sx={{ margin: "20px 0 20px 0" }}>
