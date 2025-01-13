@@ -9,7 +9,8 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import {EventCategoryIcon} from "@/app/lib/lib";
+import { EventCategoryIcon } from "@/app/lib/lib";
+import InsertInvitationIcon from "@mui/icons-material/InsertInvitation";
 
 export default function SelectEvent() {
   const { allEvents } = useAdminContext();
@@ -87,12 +88,17 @@ export default function SelectEvent() {
                   </Typography>
                 </Box>
 
-                <Stack direction="row" spacing={3}>
+                <Stack
+                  direction="row"
+                  spacing={8}
+                  sx={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
                   <Stack>
-                    <Stack direction="row" spacing={2}>
-                      <Box>
-                      {EventCategoryIcon(eventCategory)}
-                      </Box>
+                    <Stack direction="row" spacing={1}>
+                      <Box>{EventCategoryIcon(eventCategory)}</Box>
                       <Box>
                         <Typography
                           variant="subtitle1"
@@ -104,23 +110,28 @@ export default function SelectEvent() {
                         </Typography>
                       </Box>
                     </Stack>
-                    <Box>
-                      <Typography
-                        variant="subtitle1"
-                        align="center"
-                        color="textSecondary"
-                        sx={{ fontWeight: "bold" }}
-                      >
-                        {dayjs(date).format("MMM D, YYYY")}
-                      </Typography>
-                    </Box>
+                    <Stack direction="row" spacing={1}>
+                      <Box>
+                        {" "}
+                        <InsertInvitationIcon sx={{ color: "#D84040" }} />
+                      </Box>
+                      <Box>
+                        <Typography
+                          variant="subtitle1"
+                          align="right"
+                          sx={{ fontWeight: "bold" }}
+                        >
+                          {dayjs(date).format("MMM D, YYYY")}
+                        </Typography>
+                      </Box>
+                    </Stack>
                   </Stack>
                   <Box>
                     <Typography
-                      variant="inherit"
+                      variant="h6"
                       align="center"
                       color={
-                        TicketStatus == "available "
+                        TicketStatus == "available"
                           ? "success"
                           : "textSecondary"
                       }

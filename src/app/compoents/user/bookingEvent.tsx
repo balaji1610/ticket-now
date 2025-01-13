@@ -9,7 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
-
+import AboutEvent from "./aboutEvent";
 export function TicketStatusui(props: { backgroundColor: string }) {
   const { backgroundColor } = props;
   return (
@@ -117,7 +117,9 @@ export default function BookingEvent() {
 
   return (
     <div>
-      <h1>{eventName}</h1>
+      <Box sx={{ margin: "10px 0 30px 0" }}>
+        <AboutEvent />
+      </Box>
 
       <Grid container>
         <Grid size={{ md: 4, sm: 4, xl: 4 }}>
@@ -161,7 +163,7 @@ export default function BookingEvent() {
         {/* Render seats in two chunks dynamically */}
         {[0, 10].map((startIndex) => (
           <Box key={startIndex} sx={{ marginBottom: "20px" }}>
-            {seats.slice(startIndex, startIndex + 10).map((el: any) => {
+            {seats?.slice(startIndex, startIndex + 10).map((el: any) => {
               const { seatNumber, isBooked, bookedById } = el;
               return (
                 <Box
