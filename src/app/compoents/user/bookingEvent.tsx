@@ -48,7 +48,7 @@ export default function BookingEvent() {
 
     setSelectedEvent((prev: any) => ({
       ...prev,
-      TicketStatus: checkTicketSoldOutStatus ? "soldout" : "available",
+      TicketStatus: checkTicketSoldOutStatus ? "sold out" : "available",
     }));
   };
 
@@ -118,7 +118,7 @@ export default function BookingEvent() {
   return (
     <div>
       <h1>{eventName}</h1>
-      
+
       <Grid container>
         <Grid size={{ md: 4, sm: 4, xl: 4 }}>
           <Box sx={{ marginLeft: "10px" }}>

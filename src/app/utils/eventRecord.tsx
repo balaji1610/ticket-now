@@ -9,7 +9,7 @@ const eventRecord: any = {
   ticketPrice: null,
   seats: createSeatNumber(),
   createdEvent: "",
-  TicketStatus: "avilable",
+  TicketStatus: "available",
 };
 
 export default eventRecord;

@@ -8,6 +8,9 @@ import {
   Skeleton,
 } from "@mui/material";
 import { useUserContext } from "@/app/context/userContext";
+import MusicNoteIcon from "@mui/icons-material/MusicNote";
+import MoodIcon from "@mui/icons-material/Mood";
+import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 
 export const createSeatNumber: any = () => {
   const initialSeats = [
@@ -34,7 +37,7 @@ export const CategoryOptions = [
     value: "music",
   },
   {
-    label: "comdey",
+    label: "comedy",
     value: "comedy",
   },
   {
@@ -85,3 +88,18 @@ export const SkeletonTable = () => {
   );
 };
 
+export const EventCategoryIcon = (category: string) => {
+  let icon;
+  switch (category) {
+    case "music":
+      icon = <MusicNoteIcon sx={{ color: "#577BC1" }} />;
+      break;
+    case "comedy":
+      icon = <MoodIcon sx={{ color: "#577BC1" }} />;
+      break;
+    case "workshop":
+      icon = <LocalLibraryIcon sx={{ color: "#577BC1" }} />;
+      break;
+  }
+  return icon;
+};
