@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAdminContext } from "@/app/context/adminContext";
 import { useUserContext } from "@/app/context/userContext";
 import adminService from "@/app/service/adminService";
@@ -12,15 +12,18 @@ export default function SelectEvent() {
   const { allEvents } = useAdminContext();
   const { setSelectedEvent } = useUserContext();
   const { getAllEvents } = adminService();
+  const [imageLoaded, setImageLoaded] = useState(false);
   const router = useRouter();
   useEffect(() => {
     getAllEvents();
   }, []);
 
   const handleOnEventClick = (title: string, event: any) => {
-    router.push(`./events/${title}`);
+    const link = title.toLowerCase().split(" ").join("-");
+    router.push(`./events/${link}`);
     setSelectedEvent(event);
   };
+
   return (
     <div>
       {" "}
@@ -44,16 +47,16 @@ export default function SelectEvent() {
               <Stack spacing={1}>
                 <Box>
                   <Image
-                    src={thumbnailImage}
+                    src={imageLoaded ? thumbnailImage : "https://media.istockphoto.com/id/1222357475/vector/image-preview-icon-picture-placeholder-for-website-or-ui-ux-design-vector-illustration.jpg?s=612x612&w=0&k=20&c=KuCo-dRBYV7nz2gbk4J9w1WtTAgpTdznHu55W9FjimE="}
                     alt="Blog-Template"
                     width={260}
                     height={150}
                     style={{
                       objectFit: "cover",
                     }}
-                    loading="lazy"
                     placeholder="blur"
                     blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAAAAAAAD..."
+                    onLoad={() => setImageLoaded(true)}
                   />
                 </Box>
                 <Box sx={{ borderTop: "1px solid #EBEAFF" }}>
