@@ -44,7 +44,7 @@ export default function SelectEvent() {
             <Box
               sx={{
                 m: "10px 20px 10px 20px",
-                border: "1px solid red",
+                border: "1px solid gray",
                 display: "inline-block",
                 cursor: "pointer",
                 height: "27rem",
